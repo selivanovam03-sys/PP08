@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель | FlexBrick19</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #A24720;
+            --accent-color: #3498db;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f1c40f;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --bg-light: #f4f6f9;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+            --sidebar-bg: #1a252f;
+            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --shadow-lg: 0 15px 40px rgba(0,0,0,0.12);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Admin Layout */
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .admin-sidebar {
+            background: var(--sidebar-bg);
+            color: white;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .admin-logo {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .admin-logo h2 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-logo h2 span { color: var(--secondary-color); }
+        .admin-logo p { font-size: 0.8rem; opacity: 0.6; margin-top: 0.25rem; }
+
+        .admin-menu-title {
+            padding: 0 1.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.4);
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 600;
+        }
+
+        .admin-menu {
+            list-style: none;
+        }
+
+        .admin-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1.5rem;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+        .admin-menu a i { width: 20px; text-align: center; }
+
+        .admin-menu a:hover {
+            background: rgba(255,255,255,0.05);
+            color: white;
+            border-left-color: var(--secondary-color);
+        }
+
+        .admin-menu a.active {
+            background: rgba(230,126,34,0.15);
+            color: var(--secondary-color);
+            border-left-color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .admin-menu .badge-count {
+            margin-left: auto;
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .admin-user {
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .admin-user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .admin-user-info h4 { font-size: 0.9rem; }
+        .admin-user-info p { font-size: 0.75rem; opacity: 0.6; }
+
+        /* Main Content */
+        .admin-main {
+            padding: 0;
+        }
+
+        .admin-header {
+            background: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .admin-header h1 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .admin-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            width: 250px;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            width: 300px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-light);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--text-dark);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .icon-btn .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--danger-color);
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .admin-content {
+            padding: 2rem;
+        }
+
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .stat-card.sales::before { background: var(--secondary-color); }
+        .stat-card.orders::before { background: var(--accent-color); }
+        .stat-card.users::before { background: var(--success-color); }
+        .stat-card.visitors::before { background: var(--warning-color); }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .stat-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .stat-card-icon.sales { background: var(--secondary-color); }
+        .stat-card-icon.orders { background: var(--accent-color); }
+        .stat-card-icon.users { background: var(--success-color); }
+        .stat-card-icon.visitors { background: var(--warning-color); }
+
+        .stat-card-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-card-trend {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .trend-up { color: var(--success-color); }
+        .trend-down { color: var(--danger-color); }
+
+        /* Cards */
+        .admin-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .admin-card-header {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .admin-card-header h2 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-card-header h2 i {
+            color: var(--secondary-color);
+        }
+
+        .admin-card-body {
+            padding: 1.5rem;
+        }
+
+        /* Tables */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            text-align: left;
+            padding: 1rem;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .admin-table tr:last-child td { border-bottom: none; }
+
+        .admin-table tr:hover { background: var(--bg-light); }
+
+        .product-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .product-thumb {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .product-thumb.brick { background: linear-gradient(135deg, #e17055 0%, #d63031 100%); }
+        .product-thumb.marble { background: linear-gradient(135deg, #636e72 0%, #2d3436 100%); }
+        .product-thumb.glue { background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%); }
+
+        .product-name strong {
+            display: block;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        .product-name small {
+            color: var(--text-light);
+            font-size: 0.75rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-active { background: rgba(39,174,96,0.1); color: var(--success-color); }
+        .status-inactive { background: rgba(231,76,60,0.1); color: var(--danger-color); }
+        .status-pending { background: rgba(241,196,15,0.1); color: #d4ac0d; }
+        .status-shipped { background: rgba(52,152,219,0.1); color: var(--accent-color); }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.4rem;
+            color: var(--text-light);
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .action-btn:hover { color: var(--secondary-color); }
+        .action-btn.danger:hover { color: var(--danger-color); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(230,126,34,0.3);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-dark);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--secondary-color);
+            color: var(--secondary-color);
+            background: transparent;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+        }
+
+        .btn-danger:hover { background: #c0392b; box-shadow: 0 8px 15px rgba(231,76,60,0.3); }
+
+        /* Charts placeholder */
+        .chart-placeholder {
+            height: 250px;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #e8ecf1 100%);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            border: 2px dashed var(--border-color);
+        }
+
+        .chart-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+            opacity: 0.5;
+        }
+
+        /* Grid layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        /* Recent Activity */
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .activity-item:last-child { border-bottom: none; }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.order { background: var(--accent-color); }
+        .activity-icon.user { background: var(--success-color); }
+        .activity-icon.product { background: var(--secondary-color); }
+        .activity-icon.message { background: var(--warning-color); }
+
+        .activity-content strong {
+            color: var(--primary-color);
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-content p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .activity-content small {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            opacity: 0.7;
+        }
+
+        /* User avatars */
+        .user-avatar-small {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .admin-layout { grid-template-columns: 1fr; }
+            .admin-sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                z-index: 1000;
+                transition: var(--transition);
+            }
+            .admin-sidebar.open { left: 0; }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="admin-logo">
+                <h2>Flex<span>Brick</span></h2>
+                <p>Панель администратора</p>
+            </div>
+
+            <p class="admin-menu-title">Главное</p>
+            <ul class="admin-menu">
+                <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-chart-line"></i> Дашборд</a></li>
+                <li><a href="#" data-section="orders"><i class="fas fa-shopping-bag"></i> Заказы <span class="badge-count">12</span></a></li>
+                <li><a href="#" data-section="products"><i class="fas fa-box"></i> Товары</a></li>
+                <li><a href="#" data-section="customers"><i class="fas fa-users"></i> Клиенты</a></li>
+            </ul>
+
+            <p class="admin-menu-title">Аналитика</p>
+            <ul class="admin-menu">
+                <li><a href="#" data-section="analytics"><i class="fas fa-chart-pie"></i> Статистика</a></li>
+                <li><a href="#" data-section="reports"><i class="fas fa-file-alt"></i> Отчеты</a></li>
+            </ul>
+
+            <p class="admin-menu-title">Контент</p>
+            <ul class="admin-menu">
+                <li><a href="#" data-section="pages"><i class="fas fa-file"></i> Страницы</a></li>
+                <li><a href="#" data-section="reviews"><i class="fas fa-star"></i> Отзывы <span class="badge-count">5</span></a></li>
+                <li><a href="#" data-section="messages"><i class="fas fa-envelope"></i> Сообщения <span class="badge-count">3</span></a></li>
+            </ul>
+
+            <p class="admin-menu-title">Система</p>
+            <ul class="admin-menu">
+                <li><a href="#" data-section="settings"><i class="fas fa-cog"></i> Настройки</a></li>
+                <li><a href="index.html"><i class="fas fa-globe"></i> Перейти на сайт</a></li>
+                <li><a href="#" style="color: #e74c3c;"><i class="fas fa-sign-out-alt"></i> Выйти</a></li>
+            </ul>
+
+            <div class="admin-user">
+                <div class="admin-user-avatar">АД</div>
+                <div class="admin-user-info">
+                    <h4>Администратор</h4>
+                    <p>admin@flexbrick.ru</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+            <!-- HEADER -->
+            <header class="admin-header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="icon-btn" onclick="toggleSidebar()" style="display: none;" id="menuBtn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="pageTitle">Дашборд</h1>
+                </div>
+                <div class="admin-header-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Поиск...">
+                    </div>
+                    <button class="icon-btn"><i class="fas fa-bell"></i><span class="notification-dot"></span></button>
+                    <button class="icon-btn"><i class="fas fa-cog"></i></button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                
+                <!-- DASHBOARD -->
+                <section class="admin-section active" id="dashboard">
+                    <div class="stats-grid">
+                        <div class="stat-card sales">
+                            <div class="stat-card-header">
+                                <div class="stat-card-label">Общие продажи</div>
+                                <div class="stat-card-icon sales"><i class="fas fa-ruble-sign"></i></div>
+                            </div>
+                            <div class="stat-card-value">1 247 850 ₽</div>
+                            <div class="stat-card-trend trend-up"><i class="fas fa-arrow-up"></i> +12.5% за месяц</div>
+                        </div>
+                        <div class="stat-card orders">
+                            <div class="stat-card-header">
+                                <div class="stat-card-label">Заказы</div>
+                                <div class="stat-card-icon orders"><i class="fas fa-shopping-bag"></i></div>
+                            </div>
+                            <div class="stat-card-value">328</div>
+                            <div class="stat-card-trend trend-up"><i class="fas fa-arrow-up"></i> +8.3% за месяц</div>
+                        </div>
+                        <div class="stat-card users">
+                            <div class="stat-card-header">
+                                <div class="stat-card-label">Клиенты</div>
+                                <div class="stat-card-icon users"><i class="fas fa-users"></i></div>
+                            </div>
+                            <div class="stat-card-value">1 842</div>
+                            <div class="stat-card-trend trend-up"><i class="fas fa-arrow-up"></i> +156 новых</div>
+                        </div>
+                        <div class="stat-card visitors">
+                            <div class="stat-card-header">
+                                <div class="stat-card-label">Посетители</div>
+                                <div class="stat-card-icon visitors"><i class="fas fa-eye"></i></div>
+                            </div>
+                            <div class="stat-card-value">24 561</div>
+                            <div class="stat-card-trend trend-down"><i class="fas fa-arrow-down"></i> -2.1% за неделю</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <h2><i class="fas fa-chart-area"></i> График продаж</h2>
+                                <select style="padding: 0.4rem 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; font-family: inherit;">
+                                    <option>За 7 дней</option>
+                                    <option>За 30 дней</option>
+                                    <option>За год</option>
+                                </select>
+                            </div>
+                            <div class="admin-card-body">
+                                <div class="chart-placeholder">
+                                    <i class="fas fa-chart-line"></i>
+                                    <p>Здесь будет интерактивный график</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <h2><i class="fas fa-bolt"></i> Активность</h2>
+                            </div>
+                            <div class="admin-card-body" style="padding: 0.5rem 1.5rem;">
+                                <ul class="activity-list">
+                                    <li class="activity-item">
+                                        <div class="activity-icon order"><i class="fas fa-shopping-bag"></i></div>
+                                        <div class="activity-content">
+                                            <strong>Новый заказ #FB-1248</strong>
+                                            <p>Анна Петрова оформила заказ на 18 500 ₽</p>
+                                            <small>5 минут назад</small>
+                                        </div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <div class="activity-icon user"><i class="fas fa-user-plus"></i></div>
+                                        <div class="activity-content">
+                                            <strong>Новый пользователь</strong>
+                                            <p>Игорь Смирнов зарегистрировался</p>
+                                            <small>23 минуты назад</small>
+                                        </div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <div class="activity-icon message"><i class="fas fa-comment"></i></div>
+                                        <div class="activity-content">
+                                            <strong>Новый отзыв</strong>
+                                            <p>Оценка 5 звёзд от Михаила К.</p>
+                                            <small>1 час назад</small>
+                                        </div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <div class="activity-icon product"><i class="fas fa-box"></i></div>
+                                        <div class="activity-content">
+                                            <strong>Заканчивается товар</strong>
+                                            <p>Клей "Профи" — осталось 8 шт.</p>
+                                            <small>2 часа назад</small>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h2><i class="fas fa-clock"></i> Последние заказы</h2>
+                            <button class="btn btn-sm btn-outline">Все заказы <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                        <div class="admin-card-body" style="padding: 0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>№ Заказа</th>
+                                        <th>Клиент</th>
+                                        <th>Товар</th>
+                                        <th>Сумма</th>
+                                        <th>Статус</th>
+                                        <th>Дата</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>#FB-1248</strong></td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div class="user-avatar-small">АП</div>
+                                                <span>Анна Петрова</span>
+                                            </div>
+                                        </td>
+                                        <td>Гибкий кирпич × 12 м²</td>
+                                        <td><strong>18 500 ₽</strong></td>
+                                        <td><span class="status-badge status-pending">Ожидает</span></td>
+                                        <td>19.06.2026</td>
+                                        <td><button class="action-btn"><i class="fas fa-eye"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#FB-1247</strong></td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div class="user-avatar-small">ИИ</div>
+                                                <span>Иван Иванов</span>
+                                            </div>
+                                        </td>
+                                        <td>Гибкий кирпич × 8 м²</td>
+                                        <td><strong>15 750 ₽</strong></td>
+                                        <td><span class="status-badge status-shipped">В пути</span></td>
+                                        <td>15.06.2026</td>
+                                        <td><button class="action-btn"><i class="fas fa-eye"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#FB-1246</strong></td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div class="user-avatar-small">ЕК</div>
+                                                <span>Елена Козлова</span>
+                                            </div>
+                                        </td>
+                                        <td>Гибкий мрамор × 5 м²</td>
+                                        <td><strong>11 200 ₽</strong></td>
+                                        <td><span class="status-badge status-active">Доставлен</span></td>
+                                        <td>12.06.2026</td>
+                                        <td><button class="action-btn"><i class="fas fa-eye"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ORDERS -->
+                <section class="admin-section" id="orders">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h2><i class="fas fa-shopping-bag"></i> Все заказы</h2>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <select style="padding: 0.5rem 1rem; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit;">
+                                    <option>Все статусы</option>
+                                    <option>Ожидает</option>
+                                    <option>В пути</option>
+                                    <option>Доставлен</option>
+                                </select>
+                                <button class="btn btn-sm"><i class="fas fa-download"></i> Экспорт</button>
+                            </div>
+                        </div>
+                        <div class="admin-card-body" style="padding: 0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>№ Заказа</th>
+                                        <th>Клиент</th>
+                                        <th>Товары</th>
+                                        <th>Сумма</th>
+                                        <th>Статус</th>
+                                        <th>Дата</th>
+                                        <th>Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>#FB-1248</strong></td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div class="user-avatar-small">АП</div>
+                                                <div>
+                                                    <strong style="display: block; font-size: 0.9rem;">Анна Петрова</strong>
+                                                    <small style="color: var(--text-light);">anna@mail.ru</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Гибкий кирпич × 12 м²</td>
+                                        <td><strong>18 500 ₽</strong></td>
+                                        <td><span class="status-badge status-pending">Ожидает</span></td>
+                                        <td>19.06.2026</td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#FB-1247</strong></td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div class="user-avatar-small">ИИ</div>
+                                                <div>
+                                                    <strong style="display: block; font-size: 0.9rem;">Иван Иванов</strong>
+                                                    <small style="color: var(--text-light);">ivan@mail.ru</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Гибкий кирпич × 8 м²</td>
+                                        <td><strong>15 750 ₽</strong></td>
+                                        <td><span class="status-badge status-shipped">В пути</span></td>
+                                        <td>15.06.2026</td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#FB-1246</strong></td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div class="user-avatar-small">ЕК</div>
+                                                <div>
+                                                    <strong style="display: block; font-size: 0.9rem;">Елена Козлова</strong>
+                                                    <small style="color: var(--text-light);">elena@mail.ru</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Гибкий мрамор × 5 м²</td>
+                                        <td><strong>11 200 ₽</strong></td>
+                                        <td><span class="status-badge status-active">Доставлен</span></td>
+                                        <td>12.06.2026</td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#FB-1245</strong></td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div class="user-avatar-small">ДС</div>
+                                                <div>
+                                                    <strong style="display: block; font-size: 0.9rem;">Дмитрий Сидоров</strong>
+                                                    <small style="color: var(--text-light);">dmitry@mail.ru</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Услуга монтажа (12 м²)</td>
+                                        <td><strong>36 000 ₽</strong></td>
+                                        <td><span class="status-badge status-active">Выполнен</span></td>
+                                        <td>10.06.2026</td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#FB-1244</strong></td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div class="user-avatar-small">МВ</div>
+                                                <div>
+                                                    <strong style="display: block; font-size: 0.9rem;">Мария Волкова</strong>
+                                                    <small style="color: var(--text-light);">maria@mail.ru</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Клей "Профи" × 10 шт.</td>
+                                        <td><strong>8 500 ₽</strong></td>
+                                        <td><span class="status-badge status-active">Доставлен</span></td>
+                                        <td>08.06.2026</td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PRODUCTS -->
+                <section class="admin-section" id="products">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h2><i class="fas fa-box"></i> Управление товарами</h2>
+                            <button class="btn"><i class="fas fa-plus"></i> Добавить товар</button>
+                        </div>
+                        <div class="admin-card-body" style="padding: 0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Товар</th>
+                                        <th>Категория</th>
+                                        <th>Цена</th>
+                                        <th>Остаток</th>
+                                        <th>Статус</th>
+                                        <th>Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="product-cell">
+                                                <div class="product-thumb brick"><i class="fas fa-th"></i></div>
+                                                <div class="product-name">
+                                                    <strong>Гибкий кирпич "Классик Red"</strong>
+                                                    <small>Артикул: FB-001</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Гибкий кирпич</td>
+                                        <td><strong>1 250 ₽</strong> / м²</td>
+                                        <td>145 м²</td>
+                                        <td><span class="status-badge status-active">Активен</span></td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="product-cell">
+                                                <div class="product-thumb brick" style="background: linear-gradient(135deg, #636e72 0%, #2d3436 100%);"><i class="fas fa-th"></i></div>
+                                                <div class="product-name">
+                                                    <strong>Гибкий кирпич "Графит"</strong>
+                                                    <small>Артикул: FB-002</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Гибкий кирпич</td>
+                                        <td><strong>1 350 ₽</strong> / м²</td>
+                                        <td>89 м²</td>
+                                        <td><span class="status-badge status-active">Активен</span></td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="product-cell">
+                                                <div class="product-thumb marble"><i class="fas fa-gem"></i></div>
+                                                <div class="product-name">
+                                                    <strong>Гибкий мрамор "Белый Венецианский"</strong>
+                                                    <small>Артикул: FM-001</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Гибкий мрамор</td>
+                                        <td><strong>2 100 ₽</strong> / м²</td>
+                                        <td>52 м²</td>
+                                        <td><span class="status-badge status-active">Активен</span></td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="product-cell">
+                                                <div class="product-thumb glue"><i class="fas fa-fill-drip"></i></div>
+                                                <div class="product-name">
+                                                    <strong>Клей для гибкого кирпича "Профи"</strong>
+                                                    <small>Артикул: FK-001</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Расходные материалы</td>
+                                        <td><strong>850 ₽</strong> / шт</td>
+                                        <td style="color: var(--danger-color);"><strong>8 шт.</strong></td>
+                                        <td><span class="status-badge status-pending">Мало</span></td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="product-cell">
+                                                <div class="product-thumb" style="background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);"><i class="fas fa-tools"></i></div>
+                                                <div class="product-name">
+                                                    <strong>Услуга монтажа</strong>
+                                                    <small>Артикул: SRV-001</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Услуги</td>
+                                        <td><strong>3 000 ₽</strong> / м²</td>
+                                        <td>—</td>
+                                        <td><span class="status-badge status-active">Активен</span></td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn danger"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CUSTOMERS -->
+                <section class="admin-section" id="customers">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h2><i class="fas fa-users"></i> Клиенты</h2>
+                            <button class="btn btn-sm btn-outline"><i class="fas fa-download"></i> Экспорт</button>
+                        </div>
+                        <div class="admin-card-body" style="padding: 0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Клиент</th>
+                                        <th>Контакты</th>
+                                        <th>Заказов</th>
+                                        <th>Сумма покупок</th>
+                                        <th>Регистрация</th>
+                                        <th>Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div class="user-avatar-small">АП</div>
+                                                <strong>Анна Петрова</strong>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 0.85rem;">anna@mail.ru<br><small style="color: var(--text-light);">+7 (999) 111-22-33</small></div>
+                                        </td>
+                                        <td><strong>8</strong></td>
+                                        <td><strong>75 400 ₽</strong></td>
+                                        <td>12.03.2026</td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div class="user-avatar-small" style="background: #3498db;">ИИ</div>
+                                                <strong>Иван Иванов</strong>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 0.85rem;">ivan@mail.ru<br><small style="color: var(--text-light);">+7 (999) 222-33-44</small></div>
+                                        </td>
+                                        <td><strong>12</strong></td>
+                                        <td><strong>85 200 ₽</strong></td>
+                                        <td>05.02.2026</td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div class="user-avatar-small" style="background: #27ae60;">ЕК</div>
+                                                <strong>Елена Козлова</strong>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 0.85rem;">elena@mail.ru<br><small style="color: var(--text-light);">+7 (999) 333-44-55</small></div>
+                                        </td>
+                                        <td><strong>3</strong></td>
+                                        <td><strong>24 700 ₽</strong></td>
+                                        <td>18.04.2026</td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div class="user-avatar-small" style="background: #9b59b6;">ДС</div>
+                                                <strong>Дмитрий Сидоров</strong>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 0.85rem;">dmitry@mail.ru<br><small style="color: var(--text-light);">+7 (999) 444-55-66</small></div>
+                                        </td>
+                                        <td><strong>5</strong></td>
+                                        <td><strong>68 900 ₽</strong></td>
+                                        <td>22.01.2026</td>
+                                        <td>
+                                            <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn"><i class="fas fa-envelope"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ANALYTICS -->
+                <section class="admin-section" id="analytics">
+                    <div class="grid-2">
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <h2><i class="fas fa-chart-line"></i> Продажи по месяцам</h2>
+                            </div>
+                            <div class="admin-card-body">
+                                <div class="chart-placeholder">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <p>Столбчатая диаграмма продаж</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <h2><i class="fas fa-chart-pie"></i> По категориям</h2>
+                            </div>
+                            <div class="admin-card-body">
+                                <div class="chart-placeholder">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <p>Круговая диаграмма</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h2><i class="fas fa-trophy"></i> Топ товаров</h2>
+                        </div>
+                        <div class="admin-card-body" style="padding: 0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Товар</th>
+                                        <th>Продано</th>
+                                        <th>Выручка</th>
+                                        <th>Доля</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>1</strong></td>
+                                        <td>
+                                            <div class="product-cell">
+                                                <div class="product-thumb brick"><i class="fas fa-th"></i></div>
+                                                <div class="product-name">
+                                                    <strong>Гибкий кирпич "Классик Red"</strong>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>425 м²</td>
+                                        <td><strong>531 250 ₽</strong></td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div style="flex: 1; height: 6px; background: var(--bg-light); border-radius: 3px; overflow: hidden;">
+                                                    <div style="width: 42%; height: 100%; background: var(--secondary-color);"></div>
+                                                </div>
+                                                <strong>42%</strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2</strong></td>
+                                        <td>
+                                            <div class="product-cell">
+                                                <div class="product-thumb marble"><i class="fas fa-gem"></i></div>
+                                                <div class="product-name">
+                                                    <strong>Гибкий мрамор "Белый"</strong>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>180 м²</td>
+                                        <td><strong>378 000 ₽</strong></td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div style="flex: 1; height: 6px; background: var(--bg-light); border-radius: 3px; overflow: hidden;">
+                                                    <div style="width: 30%; height: 100%; background: var(--accent-color);"></div>
+                                                </div>
+                                                <strong>30%</strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>3</strong></td>
+                                        <td>
+                                            <div class="product-cell">
+                                                <div class="product-thumb" style="background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);"><i class="fas fa-tools"></i></div>
+                                                <div class="product-name">
+                                                    <strong>Услуга монтажа</strong>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>95 м²</td>
+                                        <td><strong>285 000 ₽</strong></td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div style="flex: 1; height: 6px; background: var(--bg-light); border-radius: 3px; overflow: hidden;">
+                                                    <div style="width: 22%; height: 100%; background: var(--success-color);"></div>
+                                                </div>
+                                                <strong>22%</strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SETTINGS -->
+                <section class="admin-section" id="settings">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h2><i class="fas fa-cog"></i> Общие настройки</h2>
+                        </div>
+                        <div class="admin-card-body">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem;">Название сайта</label>
+                                    <input type="text" value="FlexBrick19" style="width: 100%; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; font-family: inherit;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem;">Email администратора</label>
+                                    <input type="email" value="admin@flexbrick.ru" style="width: 100%; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; font-family: inherit;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem;">Телефон</label>
+                                    <input type="tel" value="+7 (495) 123-45-67" style="width: 100%; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; font-family: inherit;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem;">Валюта</label>
+                                    <select style="width: 100%; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; font-family: inherit;">
+                                        <option>₽ Российский рубль</option>
+                                        <option>$ Доллар США</option>
+                                        <option>€ Евро</option>
+                                    </select>
+                                </div>
+                                <div style="grid-column: 1 / -1;">
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem;">Описание сайта (SEO)</label>
+                                    <textarea style="width: 100%; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; font-family: inherit; min-height: 100px; resize: vertical;">Производство и продажа гибкого кирпича и гибкого мрамора премиум-класса</textarea>
+                                </div>
+                            </div>
+                            <button class="btn" style="margin-top: 1.5rem;"><i class="fas fa-save"></i> Сохранить настройки</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- MESSAGES -->
+                <section class="admin-section" id="messages">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h2><i class="fas fa-envelope"></i> Сообщения из формы обратной связи</h2>
+                        </div>
+                        <div class="admin-card-body" style="padding: 0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>От кого</th>
+                                        <th>Тема</th>
+                                        <th>Сообщение</th>
+                                        <th>Дата</th>
+                                        <th>Статус</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div class="user-avatar-small">МК</div>
+                                                <div>
+                                                    <strong>Михаил К.</strong><br>
+                                                    <small style="color: var(--text-light);">mikhail@mail.ru</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Расчет стоимости</td>
+                                        <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Добрый день! Интересует монтаж в загородном доме...</td>
+                                        <td>19.06.2026</td>
+                                        <td><span class="status-badge status-pending">Новое</span></td>
+                                        <td><button class="action-btn"><i class="fas fa-eye"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div class="user-avatar-small" style="background: #e67e22;">ОС</div>
+                                                <div>
+                                                    <strong>Ольга С.</strong><br>
+                                                    <small style="color: var(--text-light);">olga@mail.ru</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Оптовый заказ</td>
+                                        <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Здравствуйте, интересует сотрудничество по оптовым...</td>
+                                        <td>18.06.2026</td>
+                                        <td><span class="status-badge status-pending">Новое</span></td>
+                                        <td><button class="action-btn"><i class="fas fa-eye"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                                <div class="user-avatar-small" style="background: #27ae60;">ПВ</div>
+                                                <div>
+                                                    <strong>Павел В.</strong><br>
+                                                    <small style="color: var(--text-light);">pavel@mail.ru</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>Вопрос по товару</td>
+                                        <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Подскажите, подходит ли гибкий кирпич для ванной?</td>
+                                        <td>17.06.2026</td>
+                                        <td><span class="status-badge status-active">Отвечено</span></td>
+                                        <td><button class="action-btn"><i class="fas fa-eye"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- REVIEWS -->
+                <section class="admin-section" id="reviews">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h2><i class="fas fa-star"></i> Отзывы клиентов</h2>
+                        </div>
+                        <div class="admin-card-body" style="padding: 0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Клиент</th>
+                                        <th>Товар</th>
+                                        <th>Оценка</th>
+                                        <th>Отзыв</th>
+                                        <th>Дата</th>
+                                        <th>Статус</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Анна Петрова</strong></td>
+                                        <td>Гибкий кирпич "Лофт"</td>
+                                        <td><span style="color: #f1c40f;">★★★★★</span></td>
+                                        <td style="max-width: 300px;">Отличный материал! Сделали стену в гостиной, все в восторге</td>
+                                        <td>18.06.2026</td>
+                                        <td><span class="status-badge status-active">Опубликован</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Дмитрий Сидоров</strong></td>
+                                        <td>Услуга монтажа</td>
+                                        <td><span style="color: #f1c40f;">★★★★★</span></td>
+                                        <td style="max-width: 300px;">Мастера приехали вовремя, работу выполнили качественно</td>
+                                        <td>15.06.2026</td>
+                                        <td><span class="status-badge status-active">Опубликован</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Елена Козлова</strong></td>
+                                        <td>Гибкий мрамор</td>
+                                        <td><span style="color: #f1c40f;">★★★★☆</span></td>
+                                        <td style="max-width: 300px;">Красивый материал, но доставка была на день позже</td>
+                                        <td>12.06.2026</td>
+                                        <td><span class="status-badge status-pending">На модерации</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PAGES, REPORTS - Заглушки -->
+                <section class="admin-section" id="pages">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h2><i class="fas fa-file"></i> Управление страницами</h2>
+                            <button class="btn"><i class="fas fa-plus"></i> Создать страницу</button>
+                        </div>
+                        <div class="admin-card-body" style="padding: 0;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Название</th>
+                                        <th>URL</th>
+                                        <th>Статус</th>
+                                        <th>Обновлено</th>
+                                        <th>Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Главная</strong></td>
+                                        <td><code>/</code></td>
+                                        <td><span class="status-badge status-active">Опубликована</span></td>
+                                        <td>19.06.2026</td>
+                                        <td><button class="action-btn"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Каталог</strong></td>
+                                        <td><code>/catalog</code></td>
+                                        <td><span class="status-badge status-active">Опубликована</span></td>
+                                        <td>15.06.2026</td>
+                                        <td><button class="action-btn"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Услуги монтажа</strong></td>
+                                        <td><code>/services</code></td>
+                                        <td><span class="status-badge status-active">Опубликована</span></td>
+                                        <td>10.06.2026</td>
+                                        <td><button class="action-btn"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>О компании</strong></td>
+                                        <td><code>/about</code></td>
+                                        <td><span class="status-badge status-inactive">Черновик</span></td>
+                                        <td>01.06.2026</td>
+                                        <td><button class="action-btn"><i class="fas fa-edit"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="admin-section" id="reports">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h2><i class="fas fa-file-alt"></i> Отчеты</h2>
+                        </div>
+                        <div class="admin-card-body">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                                <div style="padding: 1.5rem; background: var(--bg-light); border-radius: 12px; text-align: center;">
+                                    <i class="fas fa-file-excel" style="font-size: 2.5rem; color: var(--success-color); margin-bottom: 1rem;"></i>
+                                    <h3 style="margin-bottom: 0.5rem;">Отчет по продажам</h3>
+                                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem;">Excel-файл с детальной информацией</p>
+                                    <button class="btn btn-sm"><i class="fas fa-download"></i> Скачать</button>
+                                </div>
+                                <div style="padding: 1.5rem; background: var(--bg-light); border-radius: 12px; text-align: center;">
+                                    <i class="fas fa-file-pdf" style="font-size: 2.5rem; color: var(--danger-color); margin-bottom: 1rem;"></i>
+                                    <h3 style="margin-bottom: 0.5rem;">Отчет по клиентам</h3>
+                                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem;">PDF с анализом клиентской базы</p>
+                                    <button class="btn btn-sm"><i class="fas fa-download"></i> Скачать</button>
+                                </div>
+                                <div style="padding: 1.5rem; background: var(--bg-light); border-radius: 12px; text-align: center;">
+                                    <i class="fas fa-file-invoice" style="font-size: 2.5rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+                                    <h3 style="margin-bottom: 0.5rem;">Финансовый отчет</h3>
+                                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem;">Полный финансовый отчет за период</p>
+                                    <button class="btn btn-sm"><i class="fas fa-download"></i> Скачать</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Переключение разделов админки
+        document.querySelectorAll('.admin-menu a[data-section]').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const sectionId = link.dataset.section;
+                
+                document.querySelectorAll('.admin-menu a').forEach(a => a.classList.remove('active'));
+                link.classList.add('active');
+                
+                document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+                const target = document.getElementById(sectionId);
+                if (target) target.classList.add('active');
+                
+                // Обновить заголовок
+                const titles = {
+                    dashboard: 'Дашборд',
+                    orders: 'Заказы',
+                    products: 'Товары',
+                    customers: 'Клиенты',
+                    analytics: 'Аналитика',
+                    reports: 'Отчеты',
+                    pages: 'Страницы',
+                    reviews: 'Отзывы',
+                    messages: 'Сообщения',
+                    settings: 'Настройки'
+                };
+                document.getElementById('pageTitle').textContent = titles[sectionId] || 'Раздел';
+            });
+        });
+
+        function toggleSidebar() {
+            document.getElementById('adminSidebar').classList.toggle('open');
+        }
+
+        // Адаптивное меню
+        function checkWidth() {
+            const menuBtn = document.getElementById('menuBtn');
+            if (window.innerWidth <= 1024) {
+                menuBtn.style.display = 'flex';
+            } else {
+                menuBtn.style.display = 'none';
+                document.getElementById('adminSidebar').classList.remove('open');
+            }
+        }
+        
+        window.addEventListener('resize', checkWidth);
+        checkWidth();
+    </script>
+</body>
+</html>

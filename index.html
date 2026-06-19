@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexBrick19 - Гибкий кирпич и мрамор</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                Flex<span>Brick</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="portfolio.html">Наши работы</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="account.html" class="active"><i class="fas fa-user"></i> Кабинет</a></li>
+                <li><button id="themeToggle" class="theme-toggle" title="Переключить тему"><i class="fas fa-moon"></i></button></li>
+            </ul>
+            <button class="mobile-menu" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Nav -->
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="portfolio.html">Наши работы</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="account.html" class="active"><i class="fas fa-user"></i> Кабинет</a></li>
+        </ul>
+        <button id="mobileThemeToggle" class="theme-toggle-mobile">
+            <i class="fas fa-moon"></i> Темная тема
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Инновационные отделочные материалы</h1>
+            <p>Гибкий кирпич и гибкий мрамор премиум качества для создания уникальных интерьеров и экстерьеров</p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn">Наша продукция</a>
+                <a href="#contacts" class="btn btn-outline">Связаться с нами</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Выпускаемая продукция</h2>
+                <p>Мы производим высококачественные гибкие отделочные материалы, которые сочетают в себе эстетику натуральных материалов и практичность современных технологий</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card fade-in">
+                    <div class="product-image">
+                        <img src="https://3.downloader.disk.yandex.ru/preview/f4db77cf83d01d969a2676c46928b4b2d6bfa1960020d5fec30e9e500b289629/inf/t6mcIXJO005QYM7AJ6uRTXaHmk4RUR5POgtr7_eQQ4464CJ78P5Dz_9w9WIEjL63v2lElFeClbUV968nj841Ag%3D%3D?uid=534998372&filename=IMG-20231004-WA0004.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=534998372&tknv=v3&is_direct_zip_experiment=1&size=2500x1290">
+                        <span class="product-badge">Хит продаж</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Гибкий кирпич</h3>
+                        <p>Идеальная имитация кирпичной кладки для внутренних и внешних работ. Легкий, прочный и простой в монтаже.</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check"></i> Толщина 3-5 мм</li>
+                            <li><i class="fas fa-check"></i> Морозостойкость до -50°C</li>
+                            <li><i class="fas fa-check"></i> Более 20 цветов</li>
+                            <li><i class="fas fa-check"></i> Срок службы 25+ лет</li>
+                        </ul>
+                        <a href="#feedback" class="btn btn-block">Заказать</a>
+                    </div>
+                </div>
+
+                <div class="product-card fade-in">
+                    <div class="product-image">
+                        <img src="Снимок.PNG">
+                        <span class="product-badge">Новинка</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Гибкий мрамор</h3>
+                        <p>Роскошная отделка с эффектом натурального мрамора. Гибкость позволяет оформлять любые поверхности.</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check"></i> Натуральная каменная крошка</li>
+                            <li><i class="fas fa-check"></i> Уникальные узоры</li>
+                            <li><i class="fas fa-check"></i> Влагостойкость</li>
+                            <li><i class="fas fa-check"></i> Простота ухода</li>
+                        </ul>
+                        <a href="#feedback" class="btn btn-block">Заказать</a>
+                    </div>
+                </div>
+
+                <div class="product-card fade-in">
+                    <div class="product-image">
+                        <img src="https://1.downloader.disk.yandex.ru/preview/6d190ff117f5f427e26c9b1eb037b8a4ff0388bd849203e732c91fef27852add/inf/EOkjLtMUXCPY6ZV9Z0v0M9_wVhdj_3Ee0_UU-84IVVvWxLugRxOpAozdgsQAR_9gPkSbgfZtE7bI52CrXQqChQ%3D%3D?uid=534998372&filename=кирп3.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=534998372&tknv=v3&is_direct_zip_experiment=1&size=2500x1290">
+                    </div>
+                    <div class="product-info">
+                        <h3>Дизайнерские решения</h3>
+                        <p>Индивидуальные дизайн-проекты с использованием гибкого кирпича. Создадим уникальный интерьер под ваш запрос.</p>
+                        <ul class="product-features">
+                            <li><i class="fas fa-check"></i> Разработка эскизов</li>
+                            <li><i class="fas fa-check"></i> Подбор цветовой гаммы</li>
+                            <li><i class="fas fa-check"></i> Консультация дизайнера</li>
+                        </ul>
+                        <a href="#feedback" class="btn btn-block">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Applications Section -->
+    <section id="applications">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Сферы применения и наши работы</h2>
+                <p>Наши материалы успешно применяются в различных сферах строительства и дизайна. Посмотрите примеры выполненных работ</p>
+            </div>
+
+            <div class="applications-grid">
+                <div class="app-card fade-in">
+                    <img src="https://4.downloader.disk.yandex.ru/preview/119673832ccec0de59858f5da91ed339eee2b79964a36bbcb71962c14da1e7b0/inf/4I_ppLJugcUD9Q9qHjBtDPk3egLP-8uPRcDhnrD1nuMP7wHON_OEvVRRCL4eM57QDxRSKZL45MFOPm9Jqz7MKQ%3D%3D?uid=534998372&filename=кирп2.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=534998372&tknv=v3&is_direct_zip_experiment=1&size=2500x1290" alt="Интерьер">
+                    <div class="app-overlay">
+                        <h3>Жилые интерьеры</h3>
+                        <p>Отделка гостиных, спален, кухонь и прихожих</p>
+                    </div>
+                </div>
+
+                <div class="app-card fade-in">
+                    <img src="https://i4444-static.my-sellios.ru/t/images/a1/b9/863fdfd8531c60a297b4859de60c-or.jpg" alt="Коммерция">
+                    <div class="app-overlay">
+                        <h3>Коммерческие помещения</h3>
+                        <p>Оформление офисов, магазинов, ресторанов</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Услуги монтажа</h2>
+                <p>Предоставляем полный спектр услуг по установке гибкого кирпича и мрамора</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-ruler-combined"></i>
+                    </div>
+                    <h3>Замер и консультация</h3>
+                    <p>Бесплатный выезд специалиста на объект, точный замер площади и консультация по выбору материалов</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-paint-roller"></i>
+                    </div>
+                    <h3>Профессиональный монтаж</h3>
+                    <p>Квалифицированные мастера с опытом работы от 5 лет. Гарантия качества выполненных работ</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Доставка материалов</h3>
+                    <p>Быстрая доставка по городу и области. Аккуратная упаковка и бережная транспортировка</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Гарантия и сервис</h3>
+                    <p>Гарантия на монтажные работы до 3 лет. Постгарантийное обслуживание и поддержка</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacts">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Контакты</h2>
+                <p>Свяжитесь с нами любым удобным способом</p>
+            </div>
+
+            <div class="contact-wrapper">
+                <div class="contact-info fade-in">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Адрес</h3>
+                            <p>г. Абакан, ул. Фабричная, д. 27</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Телефон</h3>
+                            <p><a href="tel:+7XXXXXXXXXX">+7 (987) 654-32-10</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <p><a href="mailto:info@flexbrick.ru">info@flexbrick.ru</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Режим работы</h3>
+                            <p>Пн-Пт: 9:00 - 18:00<br>Сб: 10:00 - 15:00<br>Вс: выходной</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form fade-in" id="feedback">
+                    <h3 style="margin-bottom: 2rem; color: var(--primary-color);">Обратная связь</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label class="form-label" for="name">Ваше имя</label>
+                            <input type="text" id="name" name="name" class="form-input" required placeholder="Введите ваше имя">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Телефон</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" required placeholder="+7 (___) ___-__-__">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="message">Сообщение</label>
+                            <textarea id="message" name="message" class="form-textarea" placeholder="Расскажите о вашем проекте..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-block" style="border: none;">
+                            <i class="fas fa-paper-plane"></i> Отправить сообщение
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>FlexBrick19</h3>
+                <p>Производство и продажа гибкого кирпича и гибкого мрамора. Качественные материалы для вашего дома и бизнеса.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Продукция</h3>
+                <a href="#products">Гибкий кирпич</a>
+                <a href="#products">Гибкий мрамор</a>
+                <a href="#products">Аксессуары</a>
+                <a href="#products">Клеи и затирки</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Услуги</h3>
+                <a href="#services">Монтаж</a>
+                <a href="#services">Дизайн-проект</a>
+                <a href="#services">Доставка</a>
+                <a href="#services">Консультация</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Информация</h3>
+                <a href="#">О компании</a>
+                <a href="#">Доставка и оплата</a>
+                <a href="#">Гарантия</a>
+                <a href="#">Политика конфиденциальности</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 FlexBrick19. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Fade in animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+
+        // Phone mask
+        const phoneInput = document.getElementById('phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 0) {
+                    if (value[0] === '7' || value[0] === '8') {
+                        value = value.substring(1);
+                    }
+                    let formattedValue = '+7';
+                    if (value.length > 0) formattedValue += ' (' + value.substring(0, 3);
+                    if (value.length >= 3) formattedValue += ') ' + value.substring(3, 6);
+                    if (value.length >= 6) formattedValue += '-' + value.substring(6, 8);
+                    if (value.length >= 8) formattedValue += '-' + value.substring(8, 10);
+                    e.target.value = formattedValue;
+                }
+            });
+        }
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.');
+            this.reset();
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#') && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

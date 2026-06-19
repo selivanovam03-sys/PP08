@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог продукции | FlexBrick19</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .filter-bar { 
+            display: flex; 
+            justify-content: center; 
+            gap: 0.75rem; 
+            margin-bottom: 3rem; 
+            flex-wrap: wrap; 
+        }
+        .filter-btn { 
+            padding: 0.75rem 1.5rem; 
+            border: 2px solid var(--primary-color); 
+            background: transparent; 
+            color: var(--primary-color); 
+            border-radius: var(--radius-lg); 
+            font-family: inherit; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: var(--transition); 
+            font-size: 0.9rem;
+        }
+        .filter-btn:hover, .filter-btn.active { 
+            background: var(--secondary-color); 
+            border-color: var(--secondary-color); 
+            color: white; 
+        }
+        .catalog-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 2rem; 
+        }
+        .product-card { 
+            background: var(--white); 
+            border-radius: var(--radius-md); 
+            overflow: hidden; 
+            box-shadow: var(--shadow-md); 
+            transition: var(--transition); 
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+        .product-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: var(--shadow-lg);
+        }
+        .product-img { 
+            height: 220px; 
+            background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 3rem; 
+            color: white; 
+            position: relative; 
+        }
+        .badge { 
+            position: absolute; 
+            top: 15px; 
+            left: 15px; 
+            background: var(--secondary-color); 
+            color: white; 
+            padding: 0.3rem 0.8rem; 
+            border-radius: 20px; 
+            font-size: 0.8rem; 
+            font-weight: 600; 
+        }
+        .product-body { 
+            padding: 1.5rem; 
+        }
+        .product-title { 
+            font-size: 1.2rem; 
+            font-weight: 700; 
+            margin-bottom: 0.5rem; 
+            color: var(--primary-color);
+        }
+        .product-desc { 
+            color: var(--text-light); 
+            font-size: 0.9rem; 
+            margin-bottom: 1rem; 
+        }
+        .product-specs { 
+            list-style: none; 
+            margin-bottom: 1.5rem; 
+            font-size: 0.85rem; 
+            color: var(--text-dark);
+        }
+        .product-specs li { 
+            margin-bottom: 0.3rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+        }
+        .product-specs i { 
+            color: var(--secondary-color); 
+            font-size: 0.8rem; 
+        }
+        .product-footer { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-top: 1px solid var(--border-color); 
+            padding-top: 1rem; 
+        }
+        .price { 
+            font-size: 1.3rem; 
+            font-weight: 700; 
+            color: var(--primary-color);
+        }
+        .price span { 
+            font-size: 0.9rem; 
+            font-weight: 400; 
+            color: var(--text-light);
+        }
+        .pagination { 
+            display: flex; 
+            justify-content: center; 
+            gap: 0.5rem; 
+            margin-top: 4rem; 
+            list-style: none; 
+        }
+        .pagination a { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            color: var(--text-dark); 
+            font-weight: 600; 
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        .pagination a:hover, .pagination a.active { 
+            background: var(--secondary-color); 
+            color: white; 
+            border-color: var(--secondary-color); 
+        }
+        
+        /* Адаптив для каталога */
+        @media (max-width: 768px) {
+            .catalog-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 1rem; 
+            }
+            .product-img { 
+                height: 180px; 
+            }
+            .product-body { 
+                padding: 1rem; 
+            }
+            .product-title { 
+                font-size: 1rem; 
+            }
+            .product-desc { 
+                font-size: 0.8rem; 
+            }
+            .product-specs { 
+                font-size: 0.75rem; 
+            }
+            .price { 
+                font-size: 1.1rem; 
+            }
+            .filter-btn { 
+                padding: 0.6rem 1rem; 
+                font-size: 0.8rem; 
+            }
+        }
+        @media (max-width: 480px) {
+            .catalog-grid { 
+                grid-template-columns: 1fr; 
+            }
+            .product-img { 
+                height: 200px; 
+            }
+            .product-footer { 
+                flex-direction: column; 
+                gap: 0.75rem; 
+                align-items: flex-start; 
+            }
+            .btn { 
+                width: 100%; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Flex<span>Brick</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="catalog.html" class="active">Каталог</a></li>
+                <li><a href="services.html">Услуги монтажа</a></li>
+                <li><a href="portfolio.html">Наши работы</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="account.html"><i class="fas fa-user"></i> Кабинет</a></li>
+                <li><button id="themeToggle" class="theme-toggle" title="Переключить тему"><i class="fas fa-moon"></i></button></li>
+            </ul>
+            <button class="mobile-menu" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Главная</a></li>
+            <li><a href="catalog.html" class="active"><i class="fas fa-shopping-bag"></i> Каталог</a></li>
+            <li><a href="services.html"><i class="fas fa-tools"></i> Услуги монтажа</a></li>
+            <li><a href="portfolio.html"><i class="fas fa-briefcase"></i> Наши работы</a></li>
+            <li><a href="contacts.html"><i class="fas fa-map-marker-alt"></i> Контакты</a></li>
+            <li><a href="account.html"><i class="fas fa-user"></i> Кабинет</a></li>
+        </ul>
+        <button id="mobileThemeToggle" class="theme-toggle-mobile">
+            <i class="fas fa-moon"></i> Темная тема
+        </button>
+    </div>
+
+    <section class="hero-small">
+        <h1>Каталог продукции</h1>
+    </section>
+
+    <div class="container" style="padding: 3rem 2rem;">
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">Все материалы</button>
+            <button class="filter-btn" data-filter="brick">Гибкий кирпич</button>
+            <button class="filter-btn" data-filter="marble">Гибкий мрамор</button>
+            <button class="filter-btn" data-filter="glue">Клеи и затирки</button>
+            <button class="filter-btn" data-filter="accessories">Аксессуары</button>
+        </div>
+
+        <div class="catalog-grid">
+            <!-- Товар 1 -->
+            <div class="product-card" data-category="brick">
+                <div class="product-img">
+                    <img src="https://2.downloader.disk.yandex.ru/preview/deeed8874cc4db0949f610f8f6a777d4b472073ec90dc711a70ac79906a1c51d/inf/6lMtWRyKXRzFYU2o1Otog94mXf101oWFAvmKT7ZjLf5hCPDN4w7aG4ahQWJ05jntojoCUjkVB3yWKbjnqfavZA%3D%3D?uid=534998372&filename=IMG-20231004-WA0007.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=534998372&tknv=v3&is_direct_zip_experiment=1&size=2500x1290">
+                    <span class="badge">Хит</span>
+                </div>
+                <div class="product-body">
+                    <h3 class="product-title">Гибкий кирпич "Классик Red"</h3>
+                    <p class="product-desc">Классический красный оттенок, идеален для интерьеров в стиле лофт и фасадов.</p>
+                    <ul class="product-specs">
+                        <li><i class="fas fa-check"></i> Размер: 240 x 65 x 3 мм</li>
+                        <li><i class="fas fa-check"></i> Морозостойкость: F50</li>
+                        <li><i class="fas fa-check"></i> В упаковке: 50 шт. (1.5 м²)</li>
+                    </ul>
+                    <div class="product-footer">
+                        <div class="price">1 250 ₽ <span>/ м²</span></div>
+                        <button class="btn btn-sm">В корзину</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Товар 2 -->
+            <div class="product-card" data-category="brick">
+                <div class="product-img" >
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhd1AbHvTkNLf9YZNlAuPTrbnDbtmwtrm1V2evcgw4DqcUE9Oqgnmwki75&s=10">
+                </div>
+                <div class="product-body">
+                    <h3 class="product-title">Гибкий кирпич "Графит"</h3>
+                    <p class="product-desc">Современный темный оттенок для создания строгих и элегантных акцентных стен.</p>
+                    <ul class="product-specs">
+                        <li><i class="fas fa-check"></i> Размер: 240 x 65 x 3 мм</li>
+                        <li><i class="fas fa-check"></i> Морозостойкость: F50</li>
+                        <li><i class="fas fa-check"></i> В упаковке: 50 шт. (1.5 м²)</li>
+                    </ul>
+                    <div class="product-footer">
+                        <div class="price">1 350 ₽ <span>/ м²</span></div>
+                        <button class="btn btn-sm">В корзину</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Товар 3 -->
+            <div class="product-card" data-category="marble">
+                <div class="product-img">
+                    <img src="https://image.made-in-china.com/365f3j00NpvaRctJHlbL/-.webp">
+                    <span class="badge" style="background: var(--primary-color);">Новинка</span>
+                </div>
+                <div class="product-body">
+                    <h3 class="product-title">Гибкий мрамор "Белый Венецианский"</h3>
+                    <p class="product-desc">Роскошная имитация натурального мрамора с уникальным природным рисунком.</p>
+                    <ul class="product-specs">
+                        <li><i class="fas fa-check"></i> Размер: 1200 x 600 x 2 мм</li>
+                        <li><i class="fas fa-check"></i> Гибкость: до 90 градусов</li>
+                        <li><i class="fas fa-check"></i> В упаковке: 10 листов</li>
+                    </ul>
+                    <div class="product-footer">
+                        <div class="price">2 100 ₽ <span>/ м²</span></div>
+                        <button class="btn btn-sm">В корзину</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Товар 4 -->
+            <div class="product-card" data-category="glue">
+                <div class="product-img">
+                    <img src="https://stroisnab77.ru/upload/iblock/fab/21zyu1zln8ghrm26rqv7ndczuwb8ixag.png">
+                </div>
+                <div class="product-body">
+                    <h3 class="product-title">Клей для гибкого кирпича "Профи"</h3>
+                    <p class="product-desc">Специализированный эластичный клей с высокой адгезией к любым поверхностям.</p>
+                    <ul class="product-specs">
+                        <li><i class="fas fa-check"></i> Вес мешка: 25 кг</li>
+                        <li><i class="fas fa-check"></i> Расход: ~4 кг/м²</li>
+                        <li><i class="fas fa-check"></i> Время жизни раствора: 2 часа</li>
+                    </ul>
+                    <div class="product-footer">
+                        <div class="price">850 ₽ <span>/ шт</span></div>
+                        <button class="btn btn-sm">В корзину</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Товар 5 -->
+            <div class="product-card" data-category="marble">
+                <div class="product-img">
+                    <img src="https://daina-art.ru/upload/iblock/5dd/c4wn1cirel37n2jw1jhv155gyk77g44n/Ice_Black.jpg">
+                </div>
+                <div class="product-body">
+                    <h3 class="product-title">Гибкий мрамор "Черный Гранит"</h3>
+                    <p class="product-desc">Элегантный черный мрамор с серебристыми прожилками для роскошных интерьеров.</p>
+                    <ul class="product-specs">
+                        <li><i class="fas fa-check"></i> Размер: 1200 x 600 x 2 мм</li>
+                        <li><i class="fas fa-check"></i> Гибкость: до 90 градусов</li>
+                        <li><i class="fas fa-check"></i> В упаковке: 10 листов</li>
+                    </ul>
+                    <div class="product-footer">
+                        <div class="price">2 300 ₽ <span>/ м²</span></div>
+                        <button class="btn btn-sm">В корзину</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Товар 6 -->
+            <div class="product-card" data-category="accessories">
+                <div class="product-img">
+                    <img src="Снимок2.PNG">
+                </div>
+                <div class="product-body">
+                    <h3 class="product-title">Набор инструментов для монтажа</h3>
+                    <p class="product-desc">Профессиональный набор: шпатель, валик, ножницы, уровень.</p>
+                    <ul class="product-specs">
+                        <li><i class="fas fa-check"></i> 5 предметов</li>
+                        <li><i class="fas fa-check"></i> Нержавеющая сталь</li>
+                        <li><i class="fas fa-check"></i> Чехол в комплекте</li>
+                    </ul>
+                    <div class="product-footer">
+                        <div class="price">1 500 ₽ <span>/ набор</span></div>
+                        <button class="btn btn-sm">В корзину</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ul class="pagination">
+            <li><a href="#"><i class="fas fa-chevron-left"></i></a></li>
+            <li><a href="#" class="active">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#"><i class="fas fa-chevron-right"></i></a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>© 2026 FlexBrick19. Все права защищены.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Фильтрация товаров
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const productCards = document.querySelectorAll('.product-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Убираем активный класс у всех кнопок
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                // Фильтруем товары
+                productCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'block';
+                        card.style.opacity = '0';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        card.style.display = 'none';
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.8)';
+                    }
+                });
+            });
+        });
+
+        // Обработка кнопки "В корзину"
+        document.querySelectorAll('.product-card .btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('.product-title').textContent;
+                
+                // Показываем уведомление
+                alert(`Товар "${productName}" добавлен в корзину!`);
+                
+                // Анимация кнопки
+                const originalText = this.textContent;
+                this.textContent = 'Добавлено ✓';
+                this.style.background = 'var(--success-color)';
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = '';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

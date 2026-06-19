@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наши работы | FlexBrick19</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .filter-bar { display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 3rem; flex-wrap: wrap; }
+        .filter-btn { padding: 0.75rem 1.5rem; border: 2px solid var(--primary-color); background: transparent; color: var(--primary-color); border-radius: var(--radius-lg); font-family: inherit; font-weight: 600; cursor: pointer; transition: var(--transition); font-size: 0.9rem; }
+        .filter-btn:hover, .filter-btn.active { background: var(--secondary-color); border-color: var(--secondary-color); color: white; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
+        .portfolio-item { position: relative; border-radius: var(--radius-md); overflow: hidden; height: 300px; cursor: pointer; box-shadow: var(--shadow-md); }
+        .portfolio-bg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; color: rgba(255,255,255,0.5); transition: var(--transition); }
+        .portfolio-overlay { position: absolute; bottom: 0; left: 0; right: 0; top: 0; background: linear-gradient(to top, rgba(44,62,80,0.95) 0%, rgba(44,62,80,0.4) 50%, transparent 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem; color: white; opacity: 0; transition: var(--transition); }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+        .portfolio-item:hover .portfolio-bg { transform: scale(1.1); }
+        .portfolio-overlay h3 { font-size: 1.3rem; margin-bottom: 0.5rem; transform: translateY(20px); transition: var(--transition); }
+        .portfolio-overlay p { font-size: 0.9rem; opacity: 0.9; transform: translateY(20px); transition: var(--transition); transition-delay: 0.1s; }
+        .portfolio-item:hover .portfolio-overlay h3, .portfolio-item:hover .portfolio-overlay p { transform: translateY(0); }
+        .btn-container { text-align: center; margin-top: 3rem; }
+        
+        @media (max-width: 768px) {
+            .portfolio-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .portfolio-item { height: 220px; }
+            .portfolio-overlay { padding: 1rem; }
+            .portfolio-overlay h3 { font-size: 1rem; }
+            .portfolio-overlay p { font-size: 0.8rem; }
+        }
+        @media (max-width: 480px) {
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .portfolio-item { height: 250px; }
+            .filter-btn { padding: 0.6rem 1rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Flex<span>Brick</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="services.html">Услуги монтажа</a></li>
+                <li><a href="portfolio.html" class="active">Наши работы</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li><a href="account.html"><i class="fas fa-user"></i> Кабинет</a></li>
+                <li><button id="themeToggle" class="theme-toggle" title="Переключить тему"><i class="fas fa-moon"></i></button></li>
+            </ul>
+            <button class="mobile-menu" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Главная</a></li>
+            <li><a href="catalog.html"><i class="fas fa-shopping-bag"></i> Каталог</a></li>
+            <li><a href="services.html"><i class="fas fa-tools"></i> Услуги монтажа</a></li>
+            <li><a href="portfolio.html" class="active"><i class="fas fa-briefcase"></i> Наши работы</a></li>
+            <li><a href="contacts.html"><i class="fas fa-map-marker-alt"></i> Контакты</a></li>
+            <li><a href="account.html"><i class="fas fa-user"></i> Кабинет</a></li>
+        </ul>
+        <button id="mobileThemeToggle" class="theme-toggle-mobile">
+            <i class="fas fa-moon"></i> Темная тема
+        </button>
+    </div>
+
+    <section class="hero-small">
+        <h1>Наши работы</h1>
+        <p>Реальные проекты, которые мы реализовали для наших клиентов</p>
+    </section>
+
+    <div class="container" style="padding: 3rem 2rem;">
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">Все проекты</button>
+            <button class="filter-btn" data-filter="interior">Интерьеры</button>
+            <button class="filter-btn" data-filter="exterior">Фасады</button>
+            <button class="filter-btn" data-filter="commercial">Коммерция</button>
+        </div>
+
+        <div class="portfolio-grid">
+            <div class="portfolio-item" data-category="interior">
+                <div class="portfolio-bg">
+                    <img src="https://avatars.mds.yandex.net/i?id=2183c00c4092d1e06e30edeee679ecc6_l-5234987-images-thumbs&n=13">
+                </div>
+                <div class="portfolio-overlay">
+                    <h3>Лофт-апартаменты в центре</h3>
+                    <p>Облицовка акцентной стены в гостиной гибким кирпичом "Классик Red". Площадь: 12 м²</p>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="exterior">
+                <div class="portfolio-bg" >
+                    <img src="https://gde.ru/images/img_ru/700/fa/46/fa46e299540c4004ea5520a5eec46178.webp">
+                </div>
+                <div class="portfolio-overlay">
+                    <h3>Загородный коттедж</h3>
+                    <p>Полная облицовка фасада и цоколя. Использован гибкий кирпич "Графит". Площадь: 150 м²</p>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="commercial">
+                <div class="portfolio-bg" >
+                    <img src="https://stoneproduct.ru/assets/images/resources/1428/barnaya-stoika-iz-mramora51.jpg">
+                </div>
+                <div class="portfolio-overlay">
+                    <h3>Кофейня "Зерно"</h3>
+                    <p>Дизайнерская отделка интерьера и барной стойки гибким мрамором. Создание уникальной атмосферы.</p>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="interior">
+                <div class="portfolio-bg" >
+                    <img src="https://magazin-kaminov.ru/upload/iblock/aea/ltz1c4aidxm464ceqr8u1jxha5fdgxnv.jpg">
+                </div>
+                <div class="portfolio-overlay">
+                    <h3>Каминная зона</h3>
+                    <p>Термостойкая облицовка камина и прилегающей стены. Безопасно и эстетично.</p>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="exterior">
+                <div class="portfolio-bg" >
+                    <img src="https://www.angstrem-mebel.ru/upload/medialibrary/3a5/vmwm54sxtpkc4kfjn7oef8eocdvifcb2.png">
+                </div>
+                <div class="portfolio-overlay">
+                    <h3>Таунхаус "Зеленый мыс"</h3>
+                    <p>Комбинированная отделка фасада: гибкий кирпич + декоративные элементы. Площадь: 85 м²</p>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="commercial">
+                <div class="portfolio-bg" >
+                    <img src="https://i.pinimg.com/originals/40/68/ef/4068ef0a3f057b53b14d51a691a839e6.jpg?nii=t">
+                </div>
+                <div class="portfolio-overlay">
+                    <h3>Офис IT-компании</h3>
+                    <p>Зонирование открытого офисного пространства с помощью декоративных перегородок из гибкого кирпича.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <a href="contacts.html" class="btn">Обсудить ваш проект</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 FlexBrick19. Все права защищены.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                portfolioItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.style.display = 'block';
+                        item.style.opacity = '0';
+                        setTimeout(() => item.style.opacity = '1', 50);
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
