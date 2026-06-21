@@ -48,16 +48,72 @@
     </div>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Инновационные отделочные материалы</h1>
-            <p>Гибкий кирпич и гибкий мрамор премиум качества для создания уникальных интерьеров и экстерьеров</p>
-            <div class="hero-buttons">
-                <a href="#products" class="btn">Наша продукция</a>
-                <a href="#contacts" class="btn btn-outline">Связаться с нами</a>
+<!-- Hero Section со слайдером -->
+<section class="hero">
+    <div class="slider-container">
+        <div class="slider-wrapper">
+            <!-- Слайд 1 -->
+            <div class="slide active">
+                <div class="slide-image">
+                    <img src="https://cdn.lemanapro.ru/lmru/image/upload/c_pad/q_auto/f_auto/w_1000/h_1000/v1746573438/lmcode/ZV_sRk8HoEKe5NHOTags3A/91995737_01.jpg" alt="Гибкий кирпич">
+                </div>
+                <div class="slide-content">
+                    <h1>Гибкий кирпич премиум качества</h1>
+                    <p>Идеальная имитация кирпичной кладки для создания уникальных интерьеров и экстерьеров</p>
+                    <div class="slide-buttons">
+                        <a href="#products" class="btn">Наша продукция</a>
+                        <a href="#contacts" class="btn btn-outline">Связаться с нами</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Слайд 2 -->
+            <div class="slide">
+                <div class="slide-image">
+                    <img src="https://partnerpkf.ru/wp-content/uploads/gibkiy-mramor-20.jpeg" alt="Гибкий мрамор">
+                </div>
+                <div class="slide-content">
+                    <h1>Гибкий мрамор для роскошной отделки</h1>
+                    <p>Натуральная каменная крошка на гибкой основе для оформления любых поверхностей</p>
+                    <div class="slide-buttons">
+                        <a href="#products" class="btn">Каталог</a>
+                        <a href="#contacts" class="btn btn-outline">Заказать</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Слайд 3 -->
+            <div class="slide">
+                <div class="slide-image">
+                    <img src="https://grandfasad.com/wp-content/uploads/2019/05/gibkij-mramor.jpg" alt="Профессиональный монтаж">
+                </div>
+                <div class="slide-content">
+                    <h1>Профессиональный монтаж с гарантией</h1>
+                    <p>Квалифицированные мастера с опытом работы от 5 лет. Гарантия до 3 лет</p>
+                    <div class="slide-buttons">
+                        <a href="#services" class="btn">Наши услуги</a>
+                        <a href="#contacts" class="btn btn-outline">Рассчитать стоимость</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+
+        <!-- Кнопки навигации -->
+        <button class="slider-btn slider-prev" id="sliderPrev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-btn slider-next" id="sliderNext">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Индикаторы -->
+        <div class="slider-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+        </div>
+    </div>
+</section>
 
     <!-- Products Section -->
     <section id="products" class="products">
@@ -70,7 +126,7 @@
             <div class="products-grid">
                 <div class="product-card fade-in">
                     <div class="product-image">
-                        <img src="https://3.downloader.disk.yandex.ru/preview/f4db77cf83d01d969a2676c46928b4b2d6bfa1960020d5fec30e9e500b289629/inf/t6mcIXJO005QYM7AJ6uRTXaHmk4RUR5POgtr7_eQQ4464CJ78P5Dz_9w9WIEjL63v2lElFeClbUV968nj841Ag%3D%3D?uid=534998372&filename=IMG-20231004-WA0004.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=534998372&tknv=v3&is_direct_zip_experiment=1&size=2500x1290">
+                        <img src="https://hazdecor.ru/files/content/2023/08/1691679899.jpg">
                         <span class="product-badge">Хит продаж</span>
                     </div>
                     <div class="product-info">
@@ -106,7 +162,7 @@
 
                 <div class="product-card fade-in">
                     <div class="product-image">
-                        <img src="https://1.downloader.disk.yandex.ru/preview/6d190ff117f5f427e26c9b1eb037b8a4ff0388bd849203e732c91fef27852add/inf/EOkjLtMUXCPY6ZV9Z0v0M9_wVhdj_3Ee0_UU-84IVVvWxLugRxOpAozdgsQAR_9gPkSbgfZtE7bI52CrXQqChQ%3D%3D?uid=534998372&filename=кирп3.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=534998372&tknv=v3&is_direct_zip_experiment=1&size=2500x1290">
+                        <img src="https://stroyfora.ru/download/content/201706/image_594ce972e58b47.10995681.jpg">
                     </div>
                     <div class="product-info">
                         <h3>Дизайнерские решения</h3>
@@ -133,7 +189,7 @@
 
             <div class="applications-grid">
                 <div class="app-card fade-in">
-                    <img src="https://4.downloader.disk.yandex.ru/preview/119673832ccec0de59858f5da91ed339eee2b79964a36bbcb71962c14da1e7b0/inf/4I_ppLJugcUD9Q9qHjBtDPk3egLP-8uPRcDhnrD1nuMP7wHON_OEvVRRCL4eM57QDxRSKZL45MFOPm9Jqz7MKQ%3D%3D?uid=534998372&filename=кирп2.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=534998372&tknv=v3&is_direct_zip_experiment=1&size=2500x1290" alt="Интерьер">
+                    <img src="https://landshaft-kamen.com/upload/medialibrary/182/qht0gu08zc9tryxv9m66qg2j0480cfpk.png">
                     <div class="app-overlay">
                         <h3>Жилые интерьеры</h3>
                         <p>Отделка гостиных, спален, кухонь и прихожих</p>
@@ -320,6 +376,72 @@
 
     <script src="script.js"></script>
     <script>
+        // Слайдер
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+const sliderPrev = document.getElementById('sliderPrev');
+const sliderNext = document.getElementById('sliderNext');
+let currentSlide = 0;
+let slideInterval;
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        dots[i].classList.remove('active');
+        if (i === index) {
+            slide.classList.add('active');
+            dots[i].classList.add('active');
+        }
+    });
+    currentSlide = index;
+}
+
+function nextSlide() {
+    const next = (currentSlide + 1) % slides.length;
+    showSlide(next);
+}
+
+function prevSlide() {
+    const prev = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(prev);
+}
+
+function startAutoPlay() {
+    slideInterval = setInterval(nextSlide, 5000); // Автопереключение каждые 5 секунд
+}
+
+function stopAutoPlay() {
+    clearInterval(slideInterval);
+}
+
+// Обработчики событий
+sliderNext.addEventListener('click', () => {
+    stopAutoPlay();
+    nextSlide();
+    startAutoPlay();
+});
+
+sliderPrev.addEventListener('click', () => {
+    stopAutoPlay();
+    prevSlide();
+    startAutoPlay();
+});
+
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        stopAutoPlay();
+        showSlide(index);
+        startAutoPlay();
+    });
+});
+
+// Автозапуск
+startAutoPlay();
+
+// Пауза при наведении
+const sliderContainer = document.querySelector('.slider-container');
+sliderContainer.addEventListener('mouseenter', stopAutoPlay);
+sliderContainer.addEventListener('mouseleave', startAutoPlay);
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
